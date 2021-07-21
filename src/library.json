@@ -1,0 +1,35 @@
+{
+  "name": "ArduinoShell",
+  "version": "0.1.0",
+  "description": "A simple telnet shell for Arduino projects. Supports any Stream including Ethernet and Serial.",
+  "keywords": "shell, telnet, stream, ethernet, wifi, serial, kindel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tig/ArduinoShell.git"
+  },
+  "authors": [
+    {
+      "name": "Charlie Kindel",
+      "email": "tig@kindel.com",
+      "url": "https://www.kindel.com",
+      "maintainer": true
+    }
+  ],
+  "build": {
+    "srcDir": "src"
+  },
+  "examples": [
+    {
+      "name": "sample",
+      "base": "examples/TelnetServer",
+      "files": [
+        "TelnetServer.ino"
+      ]
+  }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/tig/ArduinoShell",
+  "dependencies": {},
+  "frameworks": "*",
+  "platforms": "*"
+}

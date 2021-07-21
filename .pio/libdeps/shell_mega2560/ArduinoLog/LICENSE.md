@@ -1,9 +1,8 @@
 MIT License
 
-Copyright (c) 2021 Charlie Kindel
+Copyright (c) 2017,2018,2021 Thijs Elenbaas, MrRobot62, rahuldeo2047, NOX73, 
+                             dhylands, Josha, blemasle, mfalkvidd 
 
-Portions Copyright (C) 2012 Southern Storm Software, Pty Ltd.
- 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
