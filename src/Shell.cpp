@@ -22,8 +22,23 @@
 
 #include "Shell.h"
 #include "LoginShell.h"
+
 #include <string.h>
 #include <stddef.h>
+
+#ifdef ARDUINO_ARCH_SAMD
+ void *memrchr (const void *s, int c, size_t n)
+ {
+     const char *end = (const char*)s + n;
+  
+     while (end > (const char *)s) {
+         if (*end == (char)c)
+             return (void *)end;
+         end--;
+     }
+     return NULL;
+ }
+#endif
 
 /**
  * \class Shell Shell.h <Shell.h>
@@ -101,14 +116,6 @@
  * \sa ShellCommand()
  * \relates Shell
  */
-
-// Modes for line editing (flags).
-#define LINEMODE_NORMAL     0x01
-#define LINEMODE_ECHO       0x02
-#define LINEMODE_USERNAME   0x04
-#define LINEMODE_PASSWORD   0x08
-#define LINEMODE_PROMPT     0x10
-#define LINEMODE_DELAY      0x20
 
 // Delay to insert after a failed login to slow down brute force attacks (ms).
 #define LOGIN_SHELL_DELAY   3000
@@ -373,7 +380,7 @@ void Shell::loop()
         size_t size = Terminal::utf8Length(code);
         if (size && (curLen + size) < (curMax - 1)) {
             Terminal::utf8Format((uint8_t *)(buffer + curLen), code);
-            if (lineMode & LINEMODE_ECHO)
+            if (echo())
                 write((uint8_t *)(buffer + curLen), size);
             curLen += size;
         }
@@ -383,7 +390,7 @@ void Shell::loop()
         if (key >= 0x20 && key <= 0x7E) {
             // Printable ASCII character - echo and add it to the buffer.
             if (curLen < (curMax - 1)) {
-                if (lineMode & LINEMODE_ECHO)
+                if (echo())
                     write((uint8_t)key);
                 buffer[curLen++] = (char)key;
             }
@@ -421,7 +428,7 @@ static int progmem_strcmp(const __FlashStringHelper *_str1, const __FlashStringH
 
 #else
 
-#define progmem_strcmp(str1,str2) (strcmp((str1), (str2)))
+#define progmem_strcmp(str1,str2) (strcmp((const char*)(str1), (const char*)(str2)))
 
 #endif
 
@@ -746,7 +753,7 @@ bool Shell::execute(ShellCommandRegister* command) {
 void Shell::clearCharacters(size_t len)
 {
     // If the characters are hidden, then there's nothing to backspace over.
-    if (!(lineMode & LINEMODE_ECHO))
+    if (!(echo()))
         return;
 
     // Backspace over all characters in the buffer.

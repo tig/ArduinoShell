@@ -23,8 +23,13 @@
 #ifndef SHELL_h
 #define SHELL_h
 
+
 #include "Terminal.h"
 #include <Client.h>
+
+#ifdef ARDUINO_ARCH_SAMD
+ void *memrchr (const void *s, int c, size_t n);
+#endif
 
 class Shell;
 class ShellArguments;
@@ -35,6 +40,14 @@ class LoginShell;
 #else
 #define SHELL_MAX_CMD_LEN 64
 #endif
+
+// Modes for line editing (flags).
+#define LINEMODE_NORMAL     0x01
+#define LINEMODE_ECHO       0x02
+#define LINEMODE_USERNAME   0x04
+#define LINEMODE_PASSWORD   0x08
+#define LINEMODE_PROMPT     0x10
+#define LINEMODE_DELAY      0x20
 
 // forward declare
 class ShellCommandRegister;
@@ -88,6 +101,9 @@ class Shell : public Terminal {
 
   int userid() const { return uid; }
   void setUserid(int userid) { uid = userid; }
+
+  bool echo() const { return lineMode & LINEMODE_ECHO; }
+  void setEcho(bool echo) { echo ? lineMode |= LINEMODE_ECHO : lineMode &= ~LINEMODE_ECHO; }
 
   bool execute(ShellCommandRegister* command);
 

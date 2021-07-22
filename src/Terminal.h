@@ -24,7 +24,7 @@
 #define TERMINAL_h
 
 #include <Arduino.h>
-#include <USBAPI.h>
+//#include <USBAPI.h>
 #include "USBKeysExtra.h"
 
 // Special key code that indicates that unicodeKey() contains the actual code.
