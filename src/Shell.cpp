@@ -172,7 +172,7 @@ void * memrchr(const void *s, int c_in, size_t n)
  *     ...
  * }
  *
- * ShellCommand(motor, "Turn the motor on or off", cmdMotor);
+ * ShellCommand(_motor, "Turn the _motor on or off", cmdMotor);
  * \endcode
  *
  * There are two standard commands built into Shell: "help" and "exit".
@@ -955,7 +955,7 @@ void Shell::clearHistory()
  *     ...
  * }
  *
- * ShellCommand(motor, "Turn the motor on or off", cmdMotor);
+ * ShellCommand(_motor, "Turn the _motor on or off", cmdMotor);
  * \endcode
  *
  * If there are multiple Shell instances active in the system, then the
