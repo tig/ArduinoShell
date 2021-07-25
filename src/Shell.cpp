@@ -719,7 +719,9 @@ void Shell::printPrompt()
 void Shell::execute()
 {
     // Terminate the current line.
-    println();
+    if (echo()){
+        println();
+    }
 
     // Make sure the command is properly NUL-terminated.
     buffer[curLen] = '\0';
@@ -822,7 +824,9 @@ void Shell::executeBuiltin(const char *cmd)
     clearCharacters(curLen);
     curLen = strlen_P(cmd);
     strncpy_P(buffer + curStart, cmd, curLen);
-    write((const uint8_t *)(buffer + curStart), curLen);
+    if (echo()) {
+        write((const uint8_t *)(buffer + curStart), curLen);
+    }
     curLen += curStart;
     execute();
 }
